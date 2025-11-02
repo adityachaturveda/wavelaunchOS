@@ -5,6 +5,7 @@
   "description": "Studio OS workspace for application form and CRM apps",
   "packageManager": "pnpm@10.20.0",
   "scripts": {
+    "prebuild": "pnpm --filter @studio-os/database run generate",
     "dev": "pnpm --filter crm dev",
     "dev:crm": "pnpm --filter crm dev",
     "dev:application-form": "pnpm --filter application-form dev",
