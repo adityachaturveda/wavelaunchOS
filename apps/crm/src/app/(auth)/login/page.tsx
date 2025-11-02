@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import type { Route } from "next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -35,6 +36,31 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 py-12 dark:bg-black">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle>Loading…</CardTitle>
+              <CardDescription>Please wait while the page loads.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="h-10 animate-pulse rounded bg-muted" />
+                <div className="h-10 animate-pulse rounded bg-muted" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -72,7 +98,22 @@ export default function LoginPage() {
         return;
       }
 
-      router.push(result.url ?? "/app");
+      const fallbackRoute = "/app" as Route;
+      let destination: Route = fallbackRoute;
+
+      if (result.url) {
+        if (result.url.startsWith("/")) {
+          destination = result.url as Route;
+        } else {
+          try {
+            destination = new URL(result.url).pathname as Route;
+          } catch {
+            destination = fallbackRoute;
+          }
+        }
+      }
+
+      router.push(destination);
       router.refresh();
     } catch (error) {
       console.error("Login failed", error);
