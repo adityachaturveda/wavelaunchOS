@@ -1,8 +1,6 @@
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
 
-import { Prisma } from "@prisma/client";
-
 import prisma from "@/lib/prisma";
 import { recordAuditEvent } from "@/lib/audit";
 import { assertPasswordStrength } from "@studio-os/shared/auth/password";
@@ -23,6 +21,9 @@ const USER_SELECT = {
   createdAt: true,
   updatedAt: true,
 } as const;
+
+const isRecordNotFoundError = (error: unknown): error is { code: string } =>
+  Boolean(error) && typeof error === "object" && "code" in (error as { code?: string }) && (error as { code?: string }).code === "P2025";
 
 export type UserSummary = Awaited<ReturnType<typeof listUsers>>[number];
 
@@ -142,8 +143,8 @@ export async function updateUser(userId: string, input: UpdateUserInput, actorId
     });
 
     return user;
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+  } catch (error: unknown) {
+    if (isRecordNotFoundError(error)) {
       throw new UserNotFoundError();
     }
 
@@ -171,8 +172,8 @@ export async function resetUserPassword(userId: string, actorId: string) {
     });
 
     return { user, tempPassword };
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+  } catch (error: unknown) {
+    if (isRecordNotFoundError(error)) {
       throw new UserNotFoundError();
     }
 
