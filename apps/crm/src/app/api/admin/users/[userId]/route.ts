@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
@@ -5,29 +6,24 @@ import { AuthorizationError, requireAdmin } from "@/auth/role";
 import { DuplicateEmailError, UserNotFoundError, resetUserPassword, updateUser } from "@/lib/users";
 
 export async function PATCH(
-  request: Request,
-  context: { params: { userId: string } } | { params: Promise<{ userId: string }> },
+  request: NextRequest,
+  context: { params: Promise<{ userId: string }> },
 ) {
   try {
     const session = await requireAdmin();
     const body = await request.json();
-    const rawParams = "params" in context ? context.params : undefined;
-    const resolvedParams =
-      rawParams && typeof (rawParams as unknown as Promise<{ userId: string }>).then === "function"
-        ? await (rawParams as unknown as Promise<{ userId: string }> )
-        : (rawParams as { userId: string } | undefined);
-
-    const userId = resolvedParams?.userId ?? (body?.userId as string | undefined);
+    const { userId } = await context.params;
+    const resolvedUserId = userId ?? (body?.userId as string | undefined);
     const updatePayload = {
       role: body?.role,
       status: body?.status,
     };
 
-    if (!userId) {
+    if (!resolvedUserId) {
       return NextResponse.json({ error: "User id is required." }, { status: 400 });
     }
 
-    const user = await updateUser(userId, updatePayload, session.user.id);
+    const user = await updateUser(resolvedUserId, updatePayload, session.user.id);
     return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
     if (error instanceof AuthorizationError) {
@@ -55,10 +51,14 @@ export async function PATCH(
   }
 }
 
-export async function POST(request: Request, { params }: { params: { userId: string } }) {
+export async function POST(
+  _request: NextRequest,
+  context: { params: Promise<{ userId: string }> },
+) {
   try {
     const session = await requireAdmin();
-    const { user, tempPassword } = await resetUserPassword(params.userId, session.user.id);
+    const { userId } = await context.params;
+    const { user, tempPassword } = await resetUserPassword(userId, session.user.id);
     return NextResponse.json({ user, tempPassword }, { status: 200 });
   } catch (error) {
     if (error instanceof AuthorizationError) {
