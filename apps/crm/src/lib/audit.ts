@@ -7,7 +7,7 @@ interface RecordAuditEventOptions {
   entityType: string;
   entityId?: string;
   actorId?: string;
-  metadata?: Prisma.InputJsonValue;
+  metadata?: Prisma.JsonValue;
 }
 
 export async function recordAuditEvent({
