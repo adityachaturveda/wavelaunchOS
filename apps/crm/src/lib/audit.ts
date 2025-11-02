@@ -1,5 +1,3 @@
-import { Prisma } from "@prisma/client";
-
 import prisma from "@/lib/prisma";
 
 interface RecordAuditEventOptions {
@@ -7,7 +5,7 @@ interface RecordAuditEventOptions {
   entityType: string;
   entityId?: string;
   actorId?: string;
-  metadata?: Prisma.JsonValue;
+  metadata?: unknown;
 }
 
 export async function recordAuditEvent({
