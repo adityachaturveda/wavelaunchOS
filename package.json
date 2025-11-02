@@ -1,0 +1,21 @@
+{
+  "name": "studio-os-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Studio OS workspace for application form and CRM apps",
+  "packageManager": "pnpm@10.20.0",
+  "scripts": {
+    "dev": "pnpm --filter crm dev",
+    "dev:crm": "pnpm --filter crm dev",
+    "dev:application-form": "pnpm --filter application-form dev",
+    "build": "pnpm -r --workspace-root=false run build",
+    "lint": "pnpm -r --workspace-root=false run lint",
+    "test": "pnpm --filter @studio-os/shared run test && pnpm --filter crm run test",
+    "format": "pnpm -r --workspace-root=false run format"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^1.6.0"
+  }
+}

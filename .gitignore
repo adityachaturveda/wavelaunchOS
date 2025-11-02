@@ -1,0 +1,38 @@
+# Node/Next.js artifacts
+node_modules/
+.pnpm-store/
+.next/
+apps/*/.next/
+apps/*/out/
+dist/
+build/
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.*
+!.env.example
+.envrc
+packages/*/.env
+packages/*/.env.local
+
+# Logs and debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.ai/
+# Allow backups directory structure to be committed
+!backups/.gitkeep
+backups/**/*.sql
+backups/**/*.dump
+backups/**/*.tar
+backups/**/*.gz
+backups/**/*.zip
+!backups/*.md
+
+# OS files
+.DS_Store
+Thumbs.db

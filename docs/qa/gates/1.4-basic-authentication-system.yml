@@ -1,0 +1,16 @@
+schema: 1
+story: "1.4"
+story_title: "Story 1.4: Basic Authentication System"
+gate: PASS
+status_reason: "Story draft now aligns with App Router patterns, valid references, and explicit secret management tasks."
+reviewer: "Quinn (Test Architect)"
+updated: "2025-10-31T15:23:00Z"
+waiver:
+  active: false
+top_issues: []
+risk_summary:
+  totals: { critical: 0, high: 0, medium: 0, low: 0 }
+  recommendations:
+    must_fix: []
+    monitor: []
+optional_fields_examples: {}

@@ -1,0 +1,8 @@
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Ignore .env.local in specific packages
+packages/*/env.local
+packages/database/.env.local

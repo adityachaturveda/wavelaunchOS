@@ -1,0 +1,22 @@
+schema: 1
+story: "1.3"
+story_title: "Story 1.3: Database Hosting Setup"
+gate: PASS
+status_reason: "Hosting setup documented, connectivity verified, and Free-tier backup strategy captured; manual export process noted for follow-up tracking."
+reviewer: "Quinn (Test Architect)"
+updated: "2025-10-31T14:12:00Z"
+waiver:
+  active: false
+top_issues: []
+risk_summary:
+  totals: { critical: 0, high: 0, medium: 0, low: 0 }
+  recommendations:
+    must_fix:
+      - action: "Establish and maintain weekly SQL export schedule with off-site storage log"
+        refs:
+          - "docs/runbooks/database-hosting.md#backups-amp-recovery"
+    monitor:
+      - action: "Review snapshot retention periodically to ensure weekly exports cover business needs"
+        refs:
+          - "docs/runbooks/database-hosting.md#backups-amp-recovery"
+optional_fields_examples: {}
