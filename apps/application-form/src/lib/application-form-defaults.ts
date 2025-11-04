@@ -1,0 +1,60 @@
+import type { ApplicationFormSubmission } from "@studio-os/shared";
+
+export const defaultApplicationFormValues: ApplicationFormSubmission = {
+  applicant: {
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    locationCity: "",
+    locationCountry: "",
+    timezone: "",
+    portfolioUrl: "",
+    referralSource: undefined,
+  },
+  brand: {
+    brandName: "",
+    brandWebsite: "",
+    industry: "",
+    brandStage: undefined,
+    brandDescription: "",
+  },
+  social: {
+    instagramHandle: "",
+    instagramFollowers: undefined,
+    youtubeChannelUrl: "",
+    youtubeSubscribers: undefined,
+    tiktokHandle: "",
+    tiktokFollowers: undefined,
+    newsletterSubscribers: undefined,
+    otherAudienceChannels: "",
+  },
+  audience: {
+    primaryPlatform: "Instagram",
+    contentTypes: [],
+    audienceSize: 0,
+    audienceRegions: "",
+    audienceAgeBrackets: "",
+    audienceGenderSplit: undefined,
+    engagementRate: undefined,
+  },
+  content: {
+    averageMonthlyContent: undefined,
+    collaborationHistory: "",
+    brandSafetyConsiderations: "",
+    toolsAndSoftware: "",
+    languages: "",
+  },
+  goals: {
+    shortTermGoals: "",
+    longTermGoals: "",
+    collaborationPreferences: [],
+    preferredBrands: "",
+  },
+  logistics: {
+    availabilityStartDate: "",
+    decisionTimeline: undefined,
+    budgetRange: "",
+    preferredContactMethod: undefined,
+    additionalNotes: "",
+  },
+};

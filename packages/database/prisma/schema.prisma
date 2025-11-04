@@ -116,6 +116,8 @@ model ApplicationFormSubmission {
   applicantEmail String
   status         SubmissionStatus @default(PENDING)
   payload        Json
+  normalizedEmail String          @unique
+  submittedAt     DateTime        @default(now())
   creatorId      String?
   notes          String?
   createdAt      DateTime         @default(now())
@@ -123,6 +125,7 @@ model ApplicationFormSubmission {
   creator        Creator?         @relation(fields: [creatorId], references: [id])
 
   @@index([applicantEmail])
+  @@index([normalizedEmail, submittedAt])
   @@index([creatorId])
 }
 
